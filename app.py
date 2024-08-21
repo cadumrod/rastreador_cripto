@@ -46,6 +46,8 @@ def is_valid_email(email):
 # Main function
 def main():
     while True:
+
+        ####################### INPUT SECTION #######################
         while True:
             # Prompt the user for Bitcoin value and validate allowed characters
             user_value = input(
