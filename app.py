@@ -114,7 +114,7 @@ def main():
 
     ####################### VALUE COMPARE AND EMAIL SEND #######################
     # Convert formatted values back to numbers for comparison
-    user_value_num = parse_currency(formatted_user_value)
+    user_value_num = parse_currency(user_value)
 
     if btc_value < user_value_num:
 
@@ -139,6 +139,8 @@ def main():
             email.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
             email.send_message(mail)
         print("\nDados coletados e e-mail enviado.")
+    else:
+        print("\nValor do Bitcoin acima do solicitado. Reagendando monitoramento...")
 
 
 if __name__ == "__main__":
@@ -150,7 +152,14 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         next_run = schedule.next_run()
+
         if next_run != last_printed_run:
-            print(f"\nPróximo agendamento em {next_run}")
+
+            if isinstance(next_run, datetime):
+                formatted_next_run = next_run.strftime("%d/%m/%Y %H:%M:%S")
+                print(f"\nPróxima verificação em {formatted_next_run}")
+            else:
+                print(f"\nPróxima verificação em: {next_run}")
+
             last_printed_run = next_run
         sleep(1)
